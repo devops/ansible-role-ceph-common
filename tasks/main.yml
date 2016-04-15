@@ -1,0 +1,33 @@
+---
+# tasks file for ansible-role-ceph-common
+
+- name: Prepare hosts file for name resolution.
+  template: src=hosts.j2 dest=/etc/hosts
+
+- name: Stop firewall.
+  service: name=firewalld state=stopped enabled=no
+
+- name: configure repo.
+  template: src=ceph.repo.j2 dest=/etc/yum.repos.d/ceph.repo
+  when: ceph_repo_enable
+
+- name: Install pre-requisite packages.
+  yum: name={{ item }} state=installed
+  with_items:
+    - snappy
+    - leveldb
+    - gdisk
+    - python-argparse
+    - gperftools-libs
+
+- name: Install ceph.
+  yum: name=ceph state=installed
+
+- name: Generate Ceph configuration file.
+  template: src=ceph.conf.j2 dest=/etc/ceph/ceph.conf
+  notify: restart ceph
+
+- name: Ceph log config.
+  shell: |
+    mkdir -p {{ ceph_log_path }}/ceph
+    sed -i "s#/var/log#{{ ceph_log_path }}#g" /etc/logrotate.d/ceph

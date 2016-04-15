@@ -1,0 +1,28 @@
+[global]
+fsid = {{ ceph_fsid }}
+mon_initial_members = {{ ceph_mon_members }}
+mon_host = {{ cep_mon_host }}
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+filestore_xattr_use_omap = true
+osd_pool_default_size = 3
+public_network = {{ ceph_public_network }}
+cluster_network = {{ ceph_cluster_network }}
+mon_allow_pool_delete = false
+osd_max_backfills = 1
+osd_recovery_max_active=1
+osd_recovery_max_single_start=1
+
+# log
+log_file = {{ ceph_log_path }}/ceph/$cluster-$name.log
+mon_cluster_log_file = {{ ceph_log_path }}/ceph/$cluster.log
+#log_to_syslog = true
+#err_to_syslog = true
+#clog_to_syslog = true
+#mon_cluster_log_to_syslog = true
+mon_osd_nearfull_ratio = 0.65
+mon_osd_full_ratio = 0.75
+
+[osd]
+osd_journal_size = 20480

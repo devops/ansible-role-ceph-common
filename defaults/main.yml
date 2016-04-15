@@ -1,0 +1,12 @@
+---
+# defaults file for ansible-role-ceph-common
+ceph_repo_enable: False
+ceph_repo_baseurl: "http://download.ceph.com/rpm-firefly/el7/"
+
+ceph_cluster_name: "ceph"
+ceph_fsid: "80605375-25ef-46b0-afee-97aff959463f"
+ceph_mon_members: "{{ hostvars[groups['ceph-mon'][0]]['ansible_hostname'] }}, {{ hostvars[groups['ceph-mon'][1]]['ansible_hostname'] }}, {{ hostvars[groups['ceph-mon'][2]]['ansible_hostname'] }}"
+cep_mon_host: "10.0.2.31,10.0.2.32,10.0.2.33"
+ceph_public_network: "10.0.2.0/24"
+ceph_cluster_network: "10.0.2.0/24"
+ceph_log_path: "/var/log"

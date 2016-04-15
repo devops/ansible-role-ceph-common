@@ -1,0 +1,8 @@
+---
+# handlers file for ansible-role-ceph-common
+
+- name: restart ceph
+  service: name=ceph state=restarted
+
+- name: restart network
+  service: name=network state=restarted
